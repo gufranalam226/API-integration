@@ -42,9 +42,8 @@ export default MenuItems
 
 const Container = styled.div`
 .menu{
-    height: auto;
+    height: 100%;
     width: 300px;
-    border-right: rgba(155, 155, 155, 0.5) 3px solid;
 
 }
 

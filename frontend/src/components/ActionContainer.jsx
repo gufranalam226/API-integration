@@ -37,17 +37,11 @@ function ActionContainer({ name, selectedAction }) {
    <>
      <Container>
         <div className='title-head'>
-            <div className='title'>Welcome Back!</div>
+            <div className='title'>{selectedAction || "Welcome Back!"}</div>
             <div className='action-area'>
                 <Action />
                 
-            </div>
-                    {/* {selectedAction ? (
-                <p>Action for {selectedAction}</p>
-            ) : (
-                <p>Please select a menu item to see the action.</p>
-            )} */}
-            
+            </div>    
 
 
         </div>
@@ -61,15 +55,15 @@ export default ActionContainer
 
 const Container = styled.div`
 .title-head{
-    height: 80px;
-    width: 100%;
-    border-bottom: rgba(155, 155, 155, 0.5) 2px solid;
+    padding-bottom: 20px;
     .title{
         text-align: center;
-        height: 60px;
+        width: 100%;
+        height: 80px;
         font-size: 2.2rem;
         display: block;
         align-content: center;
+        border-bottom: rgba(155, 155, 155, 0.5) 2px solid;
         
     }
         .action-area{

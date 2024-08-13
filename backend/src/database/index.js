@@ -11,7 +11,7 @@ const MONGODB_URI = process.env.MONGODB_URI
 const connectDB = async ()=>{
     await mongoose.connect(`${MONGODB_URI}/delhiveryApi`)
     .then(()=>{
-        console.log("Databse connnected Successfullly...")
+        console.log("Database connnected Successfullly...")
     })
     .catch (err => {
         throw new apiError(401, "Unable to establish Database!", err)

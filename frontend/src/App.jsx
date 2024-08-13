@@ -13,6 +13,7 @@ function App() {
   return (
     <Container>
       <div className='container'>
+
         <div className='menuItems'>
           <MenuItems onSelectItem = {setSelectedAction}/>
         </div>
@@ -31,17 +32,21 @@ export default App
 
 const Container = styled.div`
 .container{
-height : auto;
-width : max(700px, 1160px);
-border: 2px solid black;
-margin: auto;
-display: flex;
-.menuItems{
-width: 300px;
-}
-.action-container{
-width: max(400px, 100%)
-}
+  height : auto;
+  width : max(700px, 1160px);
+  border: 2px solid black;
+  margin: auto;
+  display: flex;
+  .menuItems{
+    width: 300px;
+    height: 100%;
+    border-right: rgba(155, 155, 155, 0.5) 3px solid;
+
+  }
+  .action-container{
+    width: max(400px, 100%);
+    height: 100%;
+  }
 }
 
 `
