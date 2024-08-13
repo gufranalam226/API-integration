@@ -7,7 +7,7 @@ const app = express()
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:5173/',
+    origin: ['http://localhost:5173', 'http://192.168.38.19:5173' ],
     optionsSuccessStatus: 200 
 }))
 

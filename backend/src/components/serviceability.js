@@ -8,15 +8,14 @@ configDotenv({
 })
 
 const serviceability = asyncHandler(async(req, res)=>{
+
     const {pincode} = req.params
-    console.log(pincode)
 
     if(!pincode){
         throw new apiError(400, "Pincode is required")
     }
     // const url = `https://staging-express.delhivery.com/c/api/pin-codes/json/?filter_codes=${pincode}`
     const url = `https://track.delhivery.com/c/api/pin-codes/json/?filter_codes=${pincode}`
-    // const url = `https://track.delhivery.com/api/v1/packages/json/?waybill=31610010000055`
     const API_TOKEN = process.env.API_TOKEN
     if (!API_TOKEN) {
         throw new apiError(500, "API Token is missing or undefined");
@@ -31,13 +30,14 @@ const serviceability = asyncHandler(async(req, res)=>{
 
     const response = await axios.get(url, options)
     if(response.data.delivery_codes.length === 0){
-        return res.status(200).json({"Message" : "Either invalid pincode or delivery is not available"})
+        return res.status(200).json({"error" : "Either invalid pincode or delivery is not available"})
     }
-    const filterResponse = response.data.delivery_codes[0].postal_code;
-    console.log(filterResponse)
+
+    const responsee = await response.data
+    const filterResponse = responsee.delivery_codes[0].postal_code;
 
     const userResponse = {
-        "City" : filterResponse.city,
+        "city" : filterResponse.city,
         "COD" : filterResponse.cod,
         "district" : filterResponse.district,
         "pin" :filterResponse.pin,
