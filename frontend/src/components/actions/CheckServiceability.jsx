@@ -1,8 +1,11 @@
 import React from 'react'
 import styled from "styled-components"
 import { useState } from 'react';
+import axios from "axios"
 
-
+// dotenv.config({
+//   path : "/.end"
+// })
 
 function CheckServiceability() {
   // set state to reflect update and send pincode
@@ -10,20 +13,37 @@ function CheckServiceability() {
   const [response, setResponse] = useState('')
 
 
+
+
+
   const data = async(pincode)=>{
-    await fetch(`http://localhost:8000/pincode/${pincode}`)
-    .then(response => response.json())
-    .then(data => { 
-      if(data?.error){
+    try {
+        const API_TOKEN = import.meta.env.VITE_API_TOKEN
+      if (!API_TOKEN) {
+          console.log("API token is required", API_TOKEN , "  ", import.meta.env)
+      }
+      const getresponse = await axios.get(`/api/c/api/pin-codes/json/?filter_codes=${pincode}`, {
+        headers: {
+            "Content-Type":"application/json",
+            "Authorization": `Token ${API_TOKEN}`
+        }
+      })
+      
+      console.log(getresponse.data) 
+      
+      if(getresponse.data.delivery_codes.length == 0){
         const errmsg= document.querySelector(".error")
         errmsg.style.display = "block"
         errmsg.innerHTML = "Sorry! your area is not serviceable."
       }else{
         document.querySelector('.eligible').style.display = 'block'
+        const data = getresponse.data.delivery_codes[0].postal_code
+        setResponse(data)
       }
-      setResponse(data)
-    })
-    .catch(error => console.error('Error:', error));
+    
+    } catch (error) {
+      console.log("Error caught - ", error)
+    }
   }
 
   const handleClickEvent =()=>{
@@ -72,7 +92,7 @@ const Container = styled.div`
   }
   .inpfield{
     height: 35px;
-    width: min(300px, 90%);
+    width: min(300px, 60%);
     border-radius: 8px 0px 0px 8px;
     border: none;
     outline: none;
@@ -101,4 +121,7 @@ const Container = styled.div`
     display: none;
   }
 }
+
+
+
 `

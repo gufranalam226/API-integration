@@ -33,10 +33,11 @@ export default App
 const Container = styled.div`
 .container{
   height : auto;
-  width : max(700px, 1160px);
+  max-width : 1280px;
   border: 2px solid black;
   margin: auto;
   display: flex;
+  box-sizing : border-box;
   .menuItems{
     width: 300px;
     height: 100%;
@@ -44,9 +45,21 @@ const Container = styled.div`
 
   }
   .action-container{
-    width: max(400px, 100%);
+    width: 100%;
     height: 100%;
   }
+}
+
+@media only screen and (max-width: 668px) {
+
+  .container{
+    display: block;
+    width: 100vw;
+    .menuItems{
+      border: none;
+    }
+  }
+  
 }
 
 `

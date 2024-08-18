@@ -12,7 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+body{
+  padding: 0px;
+  margin: 0px;
+}
+*{
+  box-sizing: border-box;
+}
 
 
 

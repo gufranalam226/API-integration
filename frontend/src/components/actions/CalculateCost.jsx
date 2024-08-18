@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from "styled-components"
+import axios from 'axios';
 
 function CalculateCost() {
 
@@ -7,6 +8,78 @@ function CalculateCost() {
   const handlePaymentChange = (event) => {
     setCodInputField(event.target.value);
   };
+
+
+
+  // const [pincode, setPincode] = useState('')
+  const [response, setResponse] = useState('')
+
+
+
+
+
+  const data = async(url)=>{
+    try {
+        const API_TOKEN = import.meta.env.VITE_API_TOKEN
+      if (!API_TOKEN) {
+          console.log("API token is required")
+      }
+      const getresponse = await axios.get(`${url}`, {
+        headers: {
+            "Content-Type":"application/json",
+            "Authorization": `Token ${API_TOKEN}`
+        }
+      })
+      
+      // console.log(getresponse) 
+      
+      if(getresponse.data.length == 0){
+        const errmsg= document.querySelector(".error")
+        errmsg.style.display = "block"
+        errmsg.innerHTML = "Something went wrong."
+      }else{
+        document.querySelector('.eligible').style.display = 'block'
+        const data = getresponse.data[0]
+        console.log(data)
+        setResponse(data)
+
+      }
+    
+    } catch (error) {
+      console.log("Error caught - ", error)
+    }
+  }
+
+  
+  const handleClickEvent =()=>{
+      const errmsg= document.querySelector(".error")
+      errmsg.style.display = "none"
+      const md = document.querySelector("#mode").value
+      const ss = document.querySelector("#status").value
+      const o_pin = document.querySelector("#opin").value
+      const d_pin = document.querySelector("#dpin").value
+      const cgm = document.querySelector("#weight").value
+      const pt = document.querySelector("#payment").value
+      const cod = document.querySelector("#cod-amt")? document.querySelector("#cod-amt").value : 0;
+
+      console.log(ss, md)
+
+
+      if(!md|| !ss || !o_pin || !d_pin || !cgm | !pt){
+        const errmsg= document.querySelector(".error")
+        errmsg.style.display = "block"
+        errmsg.innerHTML = "All fields are required!"
+        return;      
+      }
+      const url = `/api/api/kinko/v1/invoice/charges/.json?md=${md}&ss=${ss}&d_pin=${d_pin}&o_pin=${o_pin}&cgm=${cgm}&pt=${pt}${(pt=="cod")?`&cod=${cod}`:`&cod=0`}`
+      // setPincode(url)
+      data(url)
+    }
+  
+
+
+
+
 
   // const payment = document.querySelector("#payment");
   // payment.addEventListener('onselect', ()=>{
@@ -28,7 +101,7 @@ function CalculateCost() {
                 <option value="S">Surface</option>
               </select>
             </div>
-
+            {/* "ss is mandatory field and possible values can be Delivered,RTO,DTO" */}
             <div>
               <label htmlFor="status">Shipping Type : </label>
               <select name="" id="status">
@@ -75,7 +148,9 @@ function CalculateCost() {
             )}
           </div>
 
-          <button type='submit' className='calc-btn'>Calculate</button>
+          <button type='button' className='calc-btn' onClick={handleClickEvent}>Calculate</button>
+          <div className='not-eligible error'></div>
+
 
 
 
@@ -83,6 +158,10 @@ function CalculateCost() {
 
 
         </form>
+        <div className='eligible'>
+          <h3>Approximate shipping cost will be : {response.total_amount} &#8377;</h3>
+           
+        </div>
       </div>
     </Component>
 
@@ -117,16 +196,37 @@ const Component = styled.div`
 }
 
 .grid-form>div{
-width: 45%;
-height: 30px;
+width: 35%;
+height: 40px;
 box-sizing: border-box;
 display: grid;
 // border: 1px solid red;
 margin: 20px;
-grid-template-columns: 1fr 1.5fr;
+grid-template-columns: 2fr 2fr;
+
+ 
 
 }
+.not-eligible{
+  color: red;
+  padding-left: 8px;
+  display: none;
+}
 
+.eligible{
+  font-size: 1.1rem;
+  display: none;
+}
+
+
+@media only screen and (max-width: 668px) {
+  .grid-form>div{
+    width: 80%;
+    
+  }
+  
+  
+}
 `
 
 // md, ss, o_pin, d_pin, cgm, pt, cod

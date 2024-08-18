@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from "../assets/logo.svg"
 import styled from 'styled-components'
+import burger from '../assets/menu-burger.svg'
 
 
 function MenuItems({ onSelectItem }) {
+
+  // const [menu, setmenu] = useState(none)
+
+  const toggleMenu = ()=>{
+    const menu_items = document.querySelector('.menu_items')
+    menu_items.classList.toggle('show-hide')
+
+  }
+
+
   const menuItems = [
     'Check Serviceability',
     'Calculate Cost',
@@ -14,7 +25,14 @@ function MenuItems({ onSelectItem }) {
   return (
     <Container>
       <div className='menu'>
-        <div className='logo'><img src={logo} alt="logo" /></div>
+        <div className='logo'>
+          <div>
+            <img src={logo} alt="logo" />
+          </div>
+          <div>
+            <img src={burger} className='burger' alt='ham_burger' onClick={toggleMenu} />
+          </div>
+        </div>
         <div className='menu_items'>
             {/* <div className='items'>Check Serviceability</div>
             <div className='items'>Calculate Cost</div>
@@ -51,13 +69,19 @@ const Container = styled.div`
     height: 80px;
     width: 100%;
     margin: auto;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     align-content: center;
     backgound-color: black;
     border-bottom: rgba(155, 155, 155, 0.5) 2px solid ;
     img{
         height: 40px;
         width: 100%;
+    }
+   
+    .burger{
+      display: none;
     }
 }
 
@@ -75,4 +99,34 @@ const Container = styled.div`
 
     }
 }
+
+@media only screen and (max-width: 668px) {
+
+  .menu{
+    width: 100vw;
+    
+  }
+
+  .menu_items{
+    display: none;
+  }
+
+  .show-hide{
+    display: block;
+  }
+
+  .logo{
+    justify-content: space-between;
+    padding: 0px 15px;
+  
+  .burger{
+      display: flex;
+      cursor: pointer;
+    }
+  }
+  
+  
+}
+
+
 `

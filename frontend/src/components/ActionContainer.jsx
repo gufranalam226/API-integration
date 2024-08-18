@@ -54,20 +54,24 @@ export default ActionContainer
 
 
 const Container = styled.div`
+
 .title-head{
     padding-bottom: 20px;
+    width: 100%;
     .title{
         text-align: center;
         width: 100%;
         height: 80px;
-        font-size: 2.2rem;
+        font-size: 1.8rem;
         display: block;
         align-content: center;
         border-bottom: rgba(155, 155, 155, 0.5) 2px solid;
         
     }
-        .action-area{
-            padding: 20px;
-        }
+    .action-area{
+        padding: 20px;
+        width: 100%;
+        overflow: hidden;
+    }
 }
 `
